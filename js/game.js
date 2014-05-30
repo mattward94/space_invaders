@@ -1,7 +1,7 @@
 
 var AlienFlock = function AlienFlock() {
   this.invulnrable = true;
-  this.dx = 10; this.dy = 0;
+  this.dx = 0; this.dy = 10;
   this.hit = 1; this.lastHit = 0;
   this.speed = 10;
 
@@ -80,7 +80,7 @@ Alien.prototype.fireSometimes = function() {
       if(Math.random()*100 < 10) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
-                                     { dy: 100 });
+                                     { dy: -100 }); //alien flock it now sg
       }
 }
 
@@ -98,21 +98,22 @@ Player.prototype.die = function() {
   Game.callbacks['die']();
 }
 
+//here i have made the player move vertically instead of horizontally 
 Player.prototype.step = function(dt) {
-  if(Game.keys['left']) { this.x -= 100 * dt; }
-  if(Game.keys['right']) { this.x += 100 * dt; }
+  if(Game.keys['up']) { this.y -= 100 * dt; } //i have redirected the function to the up and down keys
+  if(Game.keys['down']) { this.y += 100 * dt; }
 
-  if(this.x < 0) this.x = 0;
-  if(this.x > Game.width-this.w) this.x = Game.width-this.w;
+  if(this.y < 0) this.y = 0; //this stops the player moving out of the boundaries 
+  if(this.y > Game.width-this.w-10) this.y = Game.width-this.w-10; //had to add in -10 
 
   this.reloading--;
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 10) { //now increased the number of bullets
     GameAudio.play('fire');
     this.board.addSprite('missile',
-                          this.x + this.w/2 - Sprites.map.missile.w/2,
-                          this.y-this.h,
-                          { dy: -100, player: true });
+                          this.x - this.w+50, //swaped these over and added +50 to make the bullets appear in front player
+                          this.y + this.h/2 - Sprites.map.missile.h/2,
+                          { dy: 100, player: true }); // now firing the opposite direction
     this.board.missiles++;
     this.reloading = 10;
   }
@@ -130,7 +131,7 @@ Missile.prototype.draw = function(canvas) {
 }
 
 Missile.prototype.step = function(dt) {
-   this.y += this.dy * dt;
+   this.x += this.dy * dt; //now shotting horizontally 
 
    var enemy = this.board.collide(this);
    if(enemy) { 

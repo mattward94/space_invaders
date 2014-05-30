@@ -1,5 +1,5 @@
 var Game = new function() {                                                                  
-  var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
+  var KEY_CODES = { 38:'up', 40:'down', 32 :'fire' }; //here i have changed the key codes to move the player up and down
   this.keys = {};
 
   this.initialize = function(canvas_dom,level_data,sprite_data,callbacks) {
@@ -128,8 +128,8 @@ var GameBoard = function GameBoard(level_number) {
   this.loadLevel = function(level) {
     this.objects = [];
     this.player = this.addSprite('player', // Sprite
-                                 Game.width/2, // X
-                                 Game.height - Sprites.map['player'].h - 10); // Y
+                                 Game.width - 700, // X
+                                 Game.height - Sprites.map['player'].h - 400); // Y
 
     var flock = this.add(new AlienFlock());
     for(var y=0,rows=level.length;y<rows;y++) {

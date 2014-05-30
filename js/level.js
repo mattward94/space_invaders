@@ -1,5 +1,5 @@
 
-  var levelData = { 
+  var levelData = { //where the aliens are positioned on the screen
      1:  [[0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
@@ -23,11 +23,11 @@
           [0,0,1,1,1,1,1,1,1,1,0],
           [0,0,1,1,1,1,1,1,1,1,0]] };
 
-  var spriteData = {
+  var spriteData = { //where the aliens are positioned in the sprite png
     'alien1': { sx: 0,  sy: 0,  w: 23, h: 18, cls: Alien, frames: 2 },
     'alien2': { sx: 0,  sy: 18, w: 23, h: 18, cls: Alien, frames: 2 },
-    'player': { sx: 0,  sy: 36, w: 26, h: 17, cls: Player },
-    'missile': { sx: 0,  sy: 86, w: 3,  h: 14, cls: Missile }
+    'player': { sx: 44,  sy: 36, w: 17, h: 26, cls: Player }, // i have made the player face the correct direction
+    'missile': { sx: 0,  sy: 86, w: 14,  h: 3, cls: Missile } //i have made the missile face the correcrt direction 
   }
 
   function startGame() {
