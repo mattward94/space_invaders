@@ -1,5 +1,5 @@
 var Game = new function() {                                                                  
-  var KEY_CODES = { 38:'up', 40:'down', 32 :'fire' }; //here i have changed the key codes to move the player up and down
+  var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
   this.keys = {};
 
   this.initialize = function(canvas_dom,level_data,sprite_data,callbacks) {
@@ -47,7 +47,7 @@ var Sprites = new function() {
   };
 }
 
-var GameScreen = function GameScreen(text,text2,callback) {
+var GameScreen = function GameScreen(text,text2,text3,callback) {
   this.step = function(dt) {
     if(Game.keys['fire'] && callback) callback();
   };
@@ -61,14 +61,25 @@ var GameScreen = function GameScreen(text,text2,callback) {
     canvas.font = "bold 20px arial";
     var measure2 = canvas.measureText(text2);
     canvas.fillText(text2,Game.width/2 - measure2.width/2,Game.height/2 + 40);
+    canvas.font = "bold 20px arial";
+    var measure3 = canvas.measureText(text3);
+    canvas.fillText(text3,Game.width/2 - measure3.width/2,Game.height/2 + 80);
+   
+  
   };
 };
+
+
+
+
 
 var GameBoard = function GameBoard(level_number) {
   this.removed_objs = [];
   this.missiles = 0;
   this.level = level_number;
   var board = this;
+  var playerScore =0; 
+ 
 
   this.add =    function(obj) { obj.board=this; this.objects.push(obj); return obj; };
   this.remove = function(obj) { this.removed_objs.push(obj); };
@@ -124,12 +135,12 @@ var GameBoard = function GameBoard(level_number) {
        return board.collision(obj,this) ? this : false;
     });
   };
-
+    
   this.loadLevel = function(level) {
     this.objects = [];
-    this.player = this.addSprite('player', // Sprite
-                                 Game.width - 700, // X
-                                 Game.height - Sprites.map['player'].h - 400); // Y
+    this.player = this.addSprite('player', // sprite    (loading the players position 
+                                 Game.width/2, // X
+                                 Game.height - Sprites.map['player'].h - 10); // Y
 
     var flock = this.add(new AlienFlock());
     for(var y=0,rows=level.length;y<rows;y++) {
@@ -151,6 +162,64 @@ var GameBoard = function GameBoard(level_number) {
  
   this.loadLevel(Game.level_data[level_number]);
 };
+
+
+
+
+/**	enemiesShotInterval = setInterval(function() {
+		gameLog("Shooting Enemies"); /////
+
+		var lowests = []; // enemis les plus bas par colonnes
+		for(var i = 0; i < 8; i++) {
+			lowest = -1;
+			for(var j = 0; j < 7; j++) {
+				
+				var $alien = $('.alien[data-x='+i+'][data-y='+j+']');
+				if(j > lowest && $enemy.length) {
+					lowest = j;
+					lowests[i] = $enemy.attr('id');
+				}
+				
+			}
+			if(lowest == -1) lowests[i] = false;
+		}
+
+		for(var i = 0; i < lowests.length; i++) {
+			if(lowests[i]) {
+				var $enemy = $('.enemy[id='+lowests[i]+']');
+
+				$('<div></div>')
+					.addClass('bullet2')
+					.css({
+						left: $enemy.position().left + 20,
+						top: $enemy.position().top + 30
+					})
+					.appendTo($('#gameBoard'))
+					.animate({
+						top: 600
+					}, {
+						duration: 600/$enemy.position().top*700,
+						easing: 'linear',
+						step: function(now, fx) {
+							var bulletLeft = $(this).position().left;
+							var bulletTop = $(this).position().top;
+
+							if((gunPosition <= bulletLeft && bulletLeft <= gunPosition + 20) && (600-20-5 <= bulletTop && bulletTop <= 600+5)) {
+								$(this).stop().remove();
+								loseLife();
+								return;
+							}
+				        	
+				   		},
+				   		complete: function() {
+				   			$(this).remove();
+				   		},
+				   		queue: false
+					});
+			}
+		}
+		
+	}, (3000/(1.1*level))); **/
 
 var GameAudio = new function() {
   this.load_queue = [];

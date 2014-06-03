@@ -4,18 +4,33 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Alien Invaders</title>
   <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+    <script type="text/javascript" src="js/jqueryui.js"></script>
+    
   <script src='js/engine.js'></script>
   <script src='js/game.js'></script>
   <script src='js/level.js'></script>
 
   <style>
       #gameboard { background-color:black; }
-      #game-wrapper { margin:0 height: 800px width: 800px; }
+      #game-wrapper { margin:0 auto; width: 500px; }
   </style>
 </head>
 <body>
   <div id='game-wrapper'>
-    <canvas id='gameboard' width='800' height='800'></canvas> 
+    <canvas id='gameboard' width='500' height='500'></canvas>
+      
+
+          
+			          
+     </script> 
+      
   </div>
+    
+  <div id="score"></div>
+  <div id="lifes">
+			<img src="images/heart.gif" class="life" /><img src="images/heart.gif" class="life" /><img src="images/heart.gif" class="life" />
+		</div>
+    
 </body>
 </html>

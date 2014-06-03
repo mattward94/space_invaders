@@ -1,5 +1,5 @@
 
-  var levelData = { //where the aliens are positioned on the screen
+  var levelData = { 
      1:  [[0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
@@ -23,15 +23,15 @@
           [0,0,1,1,1,1,1,1,1,1,0],
           [0,0,1,1,1,1,1,1,1,1,0]] };
 
-  var spriteData = { //where the aliens are positioned in the sprite png
+  var spriteData = {
     'alien1': { sx: 0,  sy: 0,  w: 23, h: 18, cls: Alien, frames: 2 },
     'alien2': { sx: 0,  sy: 18, w: 23, h: 18, cls: Alien, frames: 2 },
-    'player': { sx: 44,  sy: 36, w: 17, h: 26, cls: Player }, // i have made the player face the correct direction
-    'missile': { sx: 0,  sy: 86, w: 14,  h: 3, cls: Missile } //i have made the missile face the correcrt direction 
+    'player': { sx: 0,  sy: 36, w: 26, h: 17, cls: Player },
+    'missile': { sx: 0,  sy: 86, w: 3,  h: 14, cls: Missile }
   }
 
   function startGame() {
-    var screen = new GameScreen("Alien Invaders","press space to start",
+    var screen = new GameScreen("Alien Invaders","press space to start","",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });
@@ -40,16 +40,19 @@
   }
 
   function endGame() {
-    var screen = new GameScreen("Game Over","(press space to restart)",
-                                 function() {
+       var screen = new GameScreen("Game Over","Score : " +playerScore,"(press space to restart)",
+                                 function() { 
+                                     playerScore = 0;
                                      Game.loadBoard(new GameBoard(1));
+    $('#lifes').html('<img src="images/heart.gif" class="life" /><img src="images/heart.gif" class="life" /><img src="images/heart.gif" class="life" />');
                                  });
     Game.loadBoard(screen);
   }
 
 
+
   function winGame() {
-    var screen = new GameScreen("You Win!","(press space to restart)",
+    var screen = new GameScreen("You Win!","Score : " +playerScore,"(press space to restart)","",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });

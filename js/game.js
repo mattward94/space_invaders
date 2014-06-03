@@ -1,7 +1,17 @@
 
+/**window.setInterval("revampDiv()", 100);  
+            function revampDiv(){ 
+                
+                document.getElementById("score").innerHTML = score;  
+            }  **/
+var moveCycle = ['left+', 'top+', 'left-', 'top+'];
+var enemiesPositions = [];
+var moveStep = 0; 
+var enemiesMoveInterval;
+
 var AlienFlock = function AlienFlock() {
   this.invulnrable = true;
-  this.dx = 0; this.dy = 10;
+  this.dx = 10; this.dy = 0;
   this.hit = 1; this.lastHit = 0;
   this.speed = 10;
 
@@ -57,30 +67,36 @@ Alien.prototype.draw = function(canvas) {
 Alien.prototype.die = function() {
   GameAudio.play('die');
   this.flock.speed += 1;
+  /**.hide('explode', 300, function() {
+								$(this).remove();
+							}); **/   
   this.board.remove(this);
+  playerScore++;
 }
 
 Alien.prototype.step = function(dt) {
-  this.mx += dt * this.flock.dx;
+  this.mx += dt * this.flock.dx; //this controls the alien movement left and right
   this.y += this.flock.dy;
   if(Math.abs(this.mx) > 10) {
     if(this.y == this.flock.max_y[this.x]) {
       this.fireSometimes();
     }
+      
     this.x += this.mx;
     this.mx = 0;
     this.frame = (this.frame+1) % 2;
-    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -1;
-    if(this.x < Sprites.map.alien1.w) this.flock.hit = 1;
+    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -10;
+    if(this.x < Sprites.map.alien1.w) this.flock.hit = 10;
   }
   return true;
 }
+
 
 Alien.prototype.fireSometimes = function() {
       if(Math.random()*100 < 10) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
-                                     { dy: -100 }); //alien flock it now sg
+                                     { dy: 100 });
       }
 }
 
@@ -94,31 +110,45 @@ Player.prototype.draw = function(canvas) {
 
 
 Player.prototype.die = function() {
+  //loseLife();
   GameAudio.play('die');
-  Game.callbacks['die']();
+    $('#gameboard').stop().css('background', 'darkred').animate({backgroundColor: 'black'}, 2000);
+  if($('.life:visible').length) $('.life:last').remove();
+  else endGame();
+    return true;
+	
+	
 }
 
-//here i have made the player move vertically instead of horizontally 
 Player.prototype.step = function(dt) {
-  if(Game.keys['up']) { this.y -= 100 * dt; } //i have redirected the function to the up and down keys
-  if(Game.keys['down']) { this.y += 100 * dt; }
+  if(Game.keys['left']) { this.x -= 100 * dt; }
+  if(Game.keys['right']) { this.x += 100 * dt; }
 
-  if(this.y < 0) this.y = 0; //this stops the player moving out of the boundaries 
-  if(this.y > Game.width-this.w-10) this.y = Game.width-this.w-10; //had to add in -10 
+  if(this.x < 0) this.x = 0;
+  if(this.x > Game.width-this.w) this.x = Game.width-this.w;
 
   this.reloading--;
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 10) { //now increased the number of bullets
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
-                          this.x - this.w+50, //swaped these over and added +50 to make the bullets appear in front player
-                          this.y + this.h/2 - Sprites.map.missile.h/2,
-                          { dy: 100, player: true }); // now firing the opposite direction
+                          this.x + this.w/2 - Sprites.map.missile.w/2,
+                          this.y-this.h,
+                          { dy: -100, player: true });
     this.board.missiles++;
     this.reloading = 10;
   }
   return true;
 }
+
+
+var playerScore =0; 
+scorerInterval = setInterval(function() {
+  document.getElementById("score").innerHTML = playerScore;  
+
+    
+});
+
 
 
 var Missile = function Missile(opts) {
@@ -131,7 +161,7 @@ Missile.prototype.draw = function(canvas) {
 }
 
 Missile.prototype.step = function(dt) {
-   this.x += this.dy * dt; //now shotting horizontally 
+   this.y += this.dy * dt;
 
    var enemy = this.board.collide(this);
    if(enemy) { 
