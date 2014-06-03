@@ -67,11 +67,12 @@ Alien.prototype.draw = function(canvas) {
 Alien.prototype.die = function() {
   GameAudio.play('die');
   this.flock.speed += 1;
-  /**.hide('explode', 300, function() {
-								$(this).remove();
-							}); **/   
-  this.board.remove(this);
   playerScore++;
+  if(this.board.remove(this)) {
+  this.board.add(new Explosion(this.x + this.w/2, 
+                                   this.y + this.h/2));
+    
+}
 }
 
 Alien.prototype.step = function(dt) {
@@ -85,8 +86,8 @@ Alien.prototype.step = function(dt) {
     this.x += this.mx;
     this.mx = 0;
     this.frame = (this.frame+1) % 2;
-    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -10;
-    if(this.x < Sprites.map.alien1.w) this.flock.hit = 10;
+    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -1;
+    if(this.x < Sprites.map.alien1.w) this.flock.hit = 1;
   }
   return true;
 }
@@ -176,3 +177,20 @@ Missile.prototype.die = function() {
   if(this.board.missiles < 0) this.board.missiles=0;
    this.board.remove(this);
 }
+
+var Explosion = function(centerX,centerY) {
+  this.setup('explosion', { frame: 0 });
+  this.x = centerX - this.w/2;
+  this.y = centerY - this.h/2;
+};
+
+Explosion.prototype = new Sprite();
+
+Explosion.prototype.step = function(dt) {
+  this.frame++;
+  if(this.frame >= 6) {
+    this.board.remove(this);
+  }
+};
+
+

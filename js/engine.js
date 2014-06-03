@@ -112,6 +112,11 @@ var GameBoard = function GameBoard(level_number) {
     this.iterate(function() { 
         if(!this.step(dt)) this.die();
     }); 
+      
+      // Draw all the objects
+  this.draw= function(ctx) {
+    this.iterate('draw',ctx);
+  };
 
     for(var i=0,len=this.removed_objs.length;i<len;i++) {
       var idx = this.objects.indexOf(this.removed_objs[i]);
@@ -163,63 +168,36 @@ var GameBoard = function GameBoard(level_number) {
   this.loadLevel(Game.level_data[level_number]);
 };
 
+var Sprite = function() { };
+
+Sprite.prototype.setup = function(sprite,props) {
+  this.sprite = sprite;
+  this.merge(props);
+  this.frame = this.frame || 0;
+  this.w =  Sprites.map[sprite].w;
+  this.h =  Sprites.map[sprite].h;
+};
+
+Sprite.prototype.merge = function(props) {
+  if(props) {
+    for (var prop in props) {
+      this[prop] = props[prop];
+    }
+  }
+};
+
+Sprite.prototype.draw = function(ctx) {
+  Sprites.draw(ctx,this.sprite,this.x,this.y,this.frame);
+};
+
+Sprite.prototype.hit = function(damage) {
+  this.board.remove(this);
+};
 
 
 
-/**	enemiesShotInterval = setInterval(function() {
-		gameLog("Shooting Enemies"); /////
 
-		var lowests = []; // enemis les plus bas par colonnes
-		for(var i = 0; i < 8; i++) {
-			lowest = -1;
-			for(var j = 0; j < 7; j++) {
-				
-				var $alien = $('.alien[data-x='+i+'][data-y='+j+']');
-				if(j > lowest && $enemy.length) {
-					lowest = j;
-					lowests[i] = $enemy.attr('id');
-				}
-				
-			}
-			if(lowest == -1) lowests[i] = false;
-		}
 
-		for(var i = 0; i < lowests.length; i++) {
-			if(lowests[i]) {
-				var $enemy = $('.enemy[id='+lowests[i]+']');
-
-				$('<div></div>')
-					.addClass('bullet2')
-					.css({
-						left: $enemy.position().left + 20,
-						top: $enemy.position().top + 30
-					})
-					.appendTo($('#gameBoard'))
-					.animate({
-						top: 600
-					}, {
-						duration: 600/$enemy.position().top*700,
-						easing: 'linear',
-						step: function(now, fx) {
-							var bulletLeft = $(this).position().left;
-							var bulletTop = $(this).position().top;
-
-							if((gunPosition <= bulletLeft && bulletLeft <= gunPosition + 20) && (600-20-5 <= bulletTop && bulletTop <= 600+5)) {
-								$(this).stop().remove();
-								loseLife();
-								return;
-							}
-				        	
-				   		},
-				   		complete: function() {
-				   			$(this).remove();
-				   		},
-				   		queue: false
-					});
-			}
-		}
-		
-	}, (3000/(1.1*level))); **/
 
 var GameAudio = new function() {
   this.load_queue = [];
