@@ -5,6 +5,8 @@
                 document.getElementById("score").innerHTML = score;  
             }  **/
 
+
+
 var AlienFlock = function AlienFlock() {
   this.invulnrable = true;
   this.dx = 10; this.dy = 0;
@@ -74,7 +76,7 @@ Alien.prototype.die = function() {
 Alien.prototype.step = function(dt) {
   this.mx += dt * this.flock.dx; //this controls the alien movement left and right
   this.y += this.flock.dy;
-  if(Math.abs(this.mx) > 10) {
+  if(Math.abs(this.mx) > 20) {
     if(this.y == this.flock.max_y[this.x]) {
       this.fireSometimes();
     }
@@ -93,16 +95,27 @@ Alien.prototype.fireSometimes = function() {
       if(Math.random()*100 < 100) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
-                                     { dy: 100 }); //speed of fire
+                                     { dy: 300 }); //speed of fire
       }
 }
 
 var Player = function Player(opts) { 
   this.reloading = 0;
+
 }
 
+var countx = 0
 Player.prototype.draw = function(canvas) {
    Sprites.draw(canvas,'player',this.x,this.y);
+    var boo = (countx++) %6; //speed of fire
+    console.log(countx);
+    if (boo == 1){
+        console.log("missile");
+        this.fireSometimes();
+    }
+    
+    
+   
 }
 
 
@@ -116,17 +129,27 @@ Player.prototype.die = function() {
 	
 	
 }
+Player.prototype.fireSometimes = function() {
+      if (Math.random()*1){
+        this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
+                                      this.y + this.h-30, 
+                                     { dy: -500 }); //distance between each missille
+      }
+}
 
 Player.prototype.step = function(dt) {
-  if(Game.keys['left']) { this.x -= 100 * dt; }
-  if(Game.keys['right']) { this.x += 100 * dt; }
-
+      
+  if(Game.keys['left']) { this.x -= 200 * dt; }
+  if(Game.keys['right']) { this.x += 200 * dt; }    
   if(this.x < 0) this.x = 0;
   if(this.x > Game.width-this.w) this.x = Game.width-this.w;
 
   this.reloading--;
+  
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
+    
+
+/*if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
@@ -134,14 +157,16 @@ Player.prototype.step = function(dt) {
                           { dy: -100, player: true });
     this.board.missiles++;
     this.reloading = 10;
-  }
+  }*/
   return true;
 }
+
 
 
 var playerScore =0; 
 scorerInterval = setInterval(function() {
   document.getElementById("score").innerHTML = playerScore;  
+    
 
     
 });

@@ -26,7 +26,7 @@ var Game = new function() {
   this.loop = function() { 
     Game.board.step(30/1000); 
     Game.board.render(Game.canvas);
-    setTimeout(Game.loop,20);
+    setTimeout(Game.loop,30);
   };
 };
 
@@ -40,12 +40,14 @@ var Sprites = new function() {
     this.image.src = 'images/sprites.png';
   };
 
+
   this.draw = function(canvas,sprite,x,y,frame) {
     var s = this.map[sprite];
     if(!frame) frame = 0;
     canvas.drawImage(this.image, s.sx + frame * s.w, s.sy, s.w, s.h, x,y, s.w, s.h);
   };
 }
+
 
 var GameScreen = function GameScreen(text,text2,text3,callback) {
   this.step = function(dt) {
