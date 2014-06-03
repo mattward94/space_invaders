@@ -4,10 +4,6 @@
                 
                 document.getElementById("score").innerHTML = score;  
             }  **/
-var moveCycle = ['left+', 'top+', 'left-', 'top+'];
-var enemiesPositions = [];
-var moveStep = 0; 
-var enemiesMoveInterval;
 
 var AlienFlock = function AlienFlock() {
   this.invulnrable = true;
@@ -94,10 +90,10 @@ Alien.prototype.step = function(dt) {
 
 
 Alien.prototype.fireSometimes = function() {
-      if(Math.random()*100 < 10) {
+      if(Math.random()*100 < 100) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
-                                     { dy: 100 });
+                                     { dy: 100 }); //speed of fire
       }
 }
 
@@ -178,6 +174,7 @@ Missile.prototype.die = function() {
    this.board.remove(this);
 }
 
+/*
 var Explosion = function(centerX,centerY) {
   this.setup('explosion', { frame: 0 });
   this.x = centerX - this.w/2;
@@ -192,5 +189,6 @@ Explosion.prototype.step = function(dt) {
     this.board.remove(this);
   }
 };
+*/
 
 

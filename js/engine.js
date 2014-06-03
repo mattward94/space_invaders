@@ -26,7 +26,7 @@ var Game = new function() {
   this.loop = function() { 
     Game.board.step(30/1000); 
     Game.board.render(Game.canvas);
-    setTimeout(Game.loop,30);
+    setTimeout(Game.loop,20);
   };
 };
 
@@ -168,6 +168,7 @@ var GameBoard = function GameBoard(level_number) {
   this.loadLevel(Game.level_data[level_number]);
 };
 
+/*
 var Sprite = function() { };
 
 Sprite.prototype.setup = function(sprite,props) {
@@ -193,6 +194,7 @@ Sprite.prototype.draw = function(ctx) {
 Sprite.prototype.hit = function(damage) {
   this.board.remove(this);
 };
+*/
 
 
 

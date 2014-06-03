@@ -28,7 +28,7 @@
     'alien2': { sx: 0,  sy: 18, w: 24, h: 18, cls: Alien, frames: 2 },
     'player': { sx: 0,  sy: 36, w: 26, h: 17, cls: Player },
     'missile': { sx: 0,  sy: 86, w: 3,  h: 14, cls: Missile },
-    'explosion': { sx: 50,  sy: 0, w: 48,  h: 36, cls: Explosion, frames: 6}, 
+   // 'explosion': { sx: 50,  sy: 0, w: 48,  h: 36, cls: Explosion, frames: 6}, 
       
   }
 
