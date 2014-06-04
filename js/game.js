@@ -66,11 +66,7 @@ Alien.prototype.die = function() {
   GameAudio.play('die');
   this.flock.speed += 1;
   playerScore++;
-  if(this.board.remove(this)) {
-  this.board.add(new Explosion(this.x + this.w/2, 
-                                   this.y + this.h/2));
-    
-}
+  this.board.remove(this);
 }
 
 Alien.prototype.step = function(dt) {
@@ -93,9 +89,9 @@ Alien.prototype.step = function(dt) {
 
 Alien.prototype.fireSometimes = function() {
       if(Math.random()*100 < 100) {
-        this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
+        this.board.addSprite('missile',this.x + this.w - Sprites.map.missile.w/2,
                                       this.y + this.h, 
-                                     { dy: 300 }); //speed of fire
+                                     { dy: 500 }); //speed of fire
       }
 }
 
@@ -186,7 +182,7 @@ Missile.prototype.step = function(dt) {
    this.y += this.dy * dt;
 
    var enemy = this.board.collide(this);
-   if(enemy) { 
+     if(enemy) {  
      enemy.die();
      return false;
    }
