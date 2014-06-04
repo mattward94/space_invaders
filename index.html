@@ -14,27 +14,43 @@
 
     
   <style>
+      
+      body{margin: 0; padding:0; background-image: url(images/background.png);}
+      
       #gameboard { background-color:black;  }
-      #game-wrapper { margin:0 auto; width:800px; }
+      #game-wrapper {margin-top:300px; margin-left: 600px; width:800px; }
       #lifes {
 			position:absolute;
 			top:20px;
-			left:550px;
+			left:700px;
 		}
       #score {
 			position:absolute;
 			top:20px;
-			right:550px;
+			right:710px;
 			color:#CCC;
 			font-size:20px;
+          
+          
+          
 		}
+      
+      
+      
+      
+      /*#background {
+          margin-top:-600px;
+          position:fixed;
+          z-index:-2000000;*/
+      
   </style>
 </head>
 <body>
+    
+
   <div id='game-wrapper'>
     <canvas id='gameboard' width='800' height='600'></canvas>
-      
-
+    
           
 			          
      </script> 
@@ -45,6 +61,10 @@
   <div id="lifes">
 			<img src="images/heart.gif" class="life" /><img src="images/heart.gif" class="life" /><img src="images/heart.gif" class="life" />
 		</div>
+    
+     
+    
+    </div>
     
 </body>
 </html>
