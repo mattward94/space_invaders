@@ -40,14 +40,12 @@ var Sprites = new function() {
     this.image.src = 'images/sprites.png';
   };
 
-
   this.draw = function(canvas,sprite,x,y,frame) {
     var s = this.map[sprite];
     if(!frame) frame = 0;
     canvas.drawImage(this.image, s.sx + frame * s.w, s.sy, s.w, s.h, x,y, s.w, s.h);
   };
 }
-
 
 var GameScreen = function GameScreen(text,text2,text3,callback) {
   this.step = function(dt) {
@@ -115,10 +113,6 @@ var GameBoard = function GameBoard(level_number) {
         if(!this.step(dt)) this.die();
     }); 
       
-      // Draw all the objects
-  this.draw= function(ctx) {
-    this.iterate('draw',ctx);
-  };
 
     for(var i=0,len=this.removed_objs.length;i<len;i++) {
       var idx = this.objects.indexOf(this.removed_objs[i]);
@@ -131,7 +125,7 @@ var GameBoard = function GameBoard(level_number) {
     this.iterate(function() { this.draw(canvas); });
   };
 
-  this.collision = function(o1,o2) {
+  this.collision = function(o1,o2) { //where missilles can hit 
     return !((o1.y+o1.h-1<o2.y) || (o1.y>o2.y+o2.h-1) ||
              (o1.x+o1.w-1<o2.x) || (o1.x>o2.x+o2.w-1));
   };
@@ -155,7 +149,7 @@ var GameBoard = function GameBoard(level_number) {
         var alien = Sprites.map['alien' + level[y][x]];
         if(alien) { 
           this.addSprite('alien' + level[y][x], // Which Sprite
-                         (alien.w+10)*x,  // X
+                         (alien.w)*x,  // X
                          alien.h*y,       // Y
                          { flock: flock }); // Options
         }
