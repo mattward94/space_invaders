@@ -1,11 +1,7 @@
 
-/**window.setInterval("revampDiv()", 100);  
-            function revampDiv(){ 
-                
-                document.getElementById("score").innerHTML = score;  
-            }  **/
 
 
+//////SPEEED OF ALIEN FLOCK///////
 
 var AlienFlock = function AlienFlock() {
   this.invulnrable = true;
@@ -58,37 +54,40 @@ var Alien = function Alien(opts) {
   this.mx = 0;
 }
 
+/////THIS IS DRAWS THE ALIENS ON THE CANVAS
+
 Alien.prototype.draw = function(canvas) {
   Sprites.draw(canvas,this.name,this.x,this.y,this.frame);
 }
 
 Alien.prototype.die = function() {
-  GameAudio.play('die');
-  this.flock.speed += 1;
-  playerScore++;
-  this.board.remove(this);
+  GameAudio.play('die'); //PLAYS AUDIO
+  this.flock.speed += 1; //SPEED INCREMENTS
+  playerScore++;   //ADD ONE TO PLAYER SCORE 
+  this.board.remove(this); //REMOVES ALIEN FROM CANVAS
 }
 
 Alien.prototype.step = function(dt) {
   this.mx += dt * this.flock.dx; //this controls the alien movement left and right
-  this.y += this.flock.dy;
-  if(Math.abs(this.mx) > 20) {
+  this.y += this.flock.dy; 
+  if(Math.abs(this.mx) > 20) { //how fast the aliens move
     if(this.y == this.flock.max_y[this.x]) {
-      this.fireSometimes();
+      this.fireSometimes(); //aliens fire at random 
     }
-      
+    
+    ///SPRITES MOVING  
     this.x += this.mx;
     this.mx = 0;
-    this.frame = (this.frame+1) % 2;
+    this.frame = (this.frame+1) % 2; //I CAN ADD MORE FRAMES HERE IF I WANT TOO
     if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -1;
     if(this.x < Sprites.map.alien1.w) this.flock.hit = 1;
   }
   return true;
 }
 
-
+ /////THIS IS THE FUNCTION THAT CONTROLS HOW FAST THE ALIENS SHOOT 
 Alien.prototype.fireSometimes = function() {
-      if(Math.random()*100 < 100) {
+      if(Math.random()*100 < 100) { //ORIGINALLY 100 < 10
         this.board.addSprite('missile',this.x + this.w - Sprites.map.missile.w/2,
                                       this.y + this.h, 
                                      { dy: 500 }); //speed of fire
@@ -100,6 +99,7 @@ var Player = function Player(opts) {
 
 }
 
+/// MADE THIS COUNTER TO LINK TO PLAYER, MAKING IT FIRE AUTOMATICALLY
 var countx = 0
 Player.prototype.draw = function(canvas) {
    Sprites.draw(canvas,'player',this.x,this.y);
@@ -124,7 +124,7 @@ Player.prototype.die = function() {
     return true;
 	
 	
-}
+} ///THIS IS THE AUTOMATIC FIRING FUNCTION I MADE FOR THE PLAYER
 Player.prototype.fireSometimes = function() {
       if (Math.random()*1){
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
@@ -133,6 +133,7 @@ Player.prototype.fireSometimes = function() {
       }
 }
 
+// THIS IS HOW THE PLAYER MOVES LEFT AND RIGHT AND THE SPEED 
 Player.prototype.step = function(dt) {
       
   if(Game.keys['left']) { this.x -= 200 * dt; }
@@ -144,21 +145,11 @@ Player.prototype.step = function(dt) {
   
 
     
-
-/*if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
-    GameAudio.play('fire');
-    this.board.addSprite('missile',
-                          this.x + this.w/2 - Sprites.map.missile.w/2,
-                          this.y-this.h,
-                          { dy: -100, player: true });
-    this.board.missiles++;
-    this.reloading = 10;
-  }*/
   return true;
 }
 
 
-
+///THIS IS THE SCORE FUNCTION I MADE
 var playerScore =0; 
 scorerInterval = setInterval(function() {
   document.getElementById("score").innerHTML = "SCORE : " + playerScore;  
@@ -173,14 +164,14 @@ var Missile = function Missile(opts) {
    this.dy = opts.dy;
    this.player = opts.player;
 }
-
+//THIS DRAWS THE MISSILE ONTO THE CANVAS 
 Missile.prototype.draw = function(canvas) {
    Sprites.draw(canvas,'missile',this.x,this.y);
 }
 
 Missile.prototype.step = function(dt) {
    this.y += this.dy * dt;
-
+///THIS CONTROLS WHEN THE ENEMY GET KILLED
    var enemy = this.board.collide(this);
      if(enemy) {  
      enemy.die();
@@ -188,7 +179,7 @@ Missile.prototype.step = function(dt) {
    }
    return (this.y < 0 || this.y > Game.height) ? false : true;
 }
-
+//WHEN THE MISSILE HITS SOMETHING IT WILL DIE
 Missile.prototype.die = function() {
   if(this.player) this.board.missiles--;
   if(this.board.missiles < 0) this.board.missiles=0;

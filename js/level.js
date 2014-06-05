@@ -1,4 +1,4 @@
-
+//THIS IS WHERE THE DIFFERENT SPRITES ARE GOING TO BE DRAWN ON THE CANVAS 
   var levelData = { 
      1:  [[0,0,1,0,1,0,1,0,1,0,0],
           [0,0,4,0,4,0,4,0,4,0,0],
@@ -34,7 +34,7 @@
           [0,0,0,0,0,0,0,0,0,0,0],
           [1,0,1,0,1,0,1,0,1,0,1]] };
 
-
+//THIS IS THE LOCATION OF THE SPRITES ON THE SPRITE SHEETS
   var spriteData = {
     'alien1': { sx: 0,  sy: 100,  w: 37, h: 28 , cls: Alien, frames: 2 },
     'alien2': { sx: 0,  sy: 129, w: 37, h: 28, cls: Alien, frames: 2 },
@@ -46,7 +46,7 @@
    // 'explosion': { sx: 50,  sy: 0, w: 48,  h: 36, cls: Explosion, frames: 6}, 
       
   }
-
+//THIS IS THE START GAME SCREEN 
   function startGame() {
     var screen = new GameScreen("SPACE INVADERS","PRESS SPACE TO START THE ADVENTURE...","",
                                  function() {
@@ -55,7 +55,7 @@
     Game.loadBoard(screen);
     Game.loop();
   }
-
+// THIS IS THE END GAME SCREEN 
   function endGame() {
        var screen = new GameScreen("GAME OVER.","Score : " +playerScore,"(Press space to restart)",
                                  function() { 
@@ -67,7 +67,7 @@
   }
 
 
-
+//THIS IS THE SCREEN IF YOU WIN 
   function winGame() {
     var screen = new GameScreen("YOU WIN!","Score : " +playerScore,"(press space to restart)","",
                                  function() {
@@ -76,7 +76,7 @@
                                  });
     Game.loadBoard(screen);
   }
-
+// THIS IS THE FUNCTION THAT INITIALIZES THE GAME 
   $(function() {
     GameAudio.load({ 'fire' : 'media/laser.ogg', 'die' : 'media/gun.ogg' }, 
                    function() { 
