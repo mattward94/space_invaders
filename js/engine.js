@@ -26,7 +26,7 @@ var Game = new function() {
   this.loop = function() { 
     Game.board.step(30/1000); 
     Game.board.render(Game.canvas);
-    setTimeout(Game.loop,30);
+    setTimeout(Game.loop,50);
   };
 };
 
@@ -56,7 +56,7 @@ var GameScreen = function GameScreen(text,text2,text3,callback) {
     canvas.clearRect(0,0,Game.width,Game.height);
     canvas.font = "bold 40px arial";
     var measure = canvas.measureText(text);  
-    canvas.fillStyle = "#FFFFFF";
+    canvas.fillStyle = "#951527";
     canvas.fillText(text,Game.width/2 - measure.width/2,Game.height/2);
     canvas.font = "bold 20px arial";
     var measure2 = canvas.measureText(text2);
@@ -163,37 +163,6 @@ var GameBoard = function GameBoard(level_number) {
  
   this.loadLevel(Game.level_data[level_number]);
 };
-
-/*
-var Sprite = function() { };
-
-Sprite.prototype.setup = function(sprite,props) {
-  this.sprite = sprite;
-  this.merge(props);
-  this.frame = this.frame || 0;
-  this.w =  Sprites.map[sprite].w;
-  this.h =  Sprites.map[sprite].h;
-};
-
-Sprite.prototype.merge = function(props) {
-  if(props) {
-    for (var prop in props) {
-      this[prop] = props[prop];
-    }
-  }
-};
-
-Sprite.prototype.draw = function(ctx) {
-  Sprites.draw(ctx,this.sprite,this.x,this.y,this.frame);
-};
-
-Sprite.prototype.hit = function(damage) {
-  this.board.remove(this);
-};
-*/
-
-
-
 
 
 

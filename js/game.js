@@ -161,7 +161,7 @@ Player.prototype.step = function(dt) {
 
 var playerScore =0; 
 scorerInterval = setInterval(function() {
-  document.getElementById("score").innerHTML = playerScore;  
+  document.getElementById("score").innerHTML = "SCORE : " + playerScore;  
     
 
     

@@ -1,4 +1,22 @@
-A Simple HTML5 Game To-be used in a Tutorial
+This is my adaption of the classic Space Invaders game. I believe my game to be unique as the player is in control of an atomatically firing gun fending off swarms of space creatures from above.
 
-Slides up at:
-http://www.slideshare.net/cykod/html5-game-development-introduction-5815787
+Use the 'Left' and 'Right' arrows to control the player on the bottom of the screen. 
+
+The original work that I have adapted is by https://github.com/cykod/AlienInvaders
+
+The sources that I have used in my game are as follows:
+
+
+mars image: http://telusers.com/image/2013/21/planet-mars-wallpaper-38482-hd-wallpapers.jpg
+
+starry sky image: http://telusers.com/image/2013/10/space-stars-wallpaper-5526-hd-wallpapers.jpg
+
+earth image: http://ak9.picdn.net/shutterstock/videos/5862743/preview/stock-footage-realistic-earth-rotating-on-black-background-earth-map-provided-by-the-nasa-k-uhd-ultra-hd.jpg
+
+astronaut image: http://cv.myresume.com.au/img/space-man.png
+
+space invaders logo: http://img1.wikia.nocookie.net/__cb20120104201536/square/images/1/12/SpaceInvadersLogo.png
+
+Lazer noise from: http://soundbible.com/1769-Laser-Gun.html
+
+

@@ -1,34 +1,34 @@
 
   var levelData = { 
-     1:  [[0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
-          [0,0,1,0,0,1,0,0,1,0,0],
+     1:  [[0,0,1,0,1,0,1,0,1,0,0],
+          [0,0,4,0,4,0,4,0,4,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,2,0,2,0,2,0,2,0,0],
+          [0,0,2,0,2,0,2,0,2,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,3,0,3,0,3,0,3,0,0],
+          [0,0,4,0,4,0,4,0,4,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0]],
-     2:  [[0,0,0,0,0,0,0,0,0,0,0],
+     2:  [[0,0,2,0,2,0,2,0,2,0,0],
+          [0,0,2,0,2,0,2,0,2,0,0],
+          [0,0,2,0,2,0,2,0,2,0,0],
+          [0,0,1,0,1,0,1,0,1,0,0],
+          [0,0,1,0,1,0,1,0,1,0,0],
+          [0,0,3,0,3,0,3,0,3,0,0],
+          [0,0,4,0,4,0,4,0,4,0,0],
+          [0,0,4,0,4,0,4,0,4,0,0],
+          [0,0,4,0,4,0,4,0,4,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0]],  
+     3:  [[3,0,3,0,3,0,3,0,3,0,3],
           [0,0,0,0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0,0,0,0],
-          [2,0,2,0,2,0,2,0,2,0,2],
-          [2,0,2,0,2,0,2,0,2,0,2],
-          [2,0,2,0,2,0,2,0,2,0,2],
-          [2,0,2,0,2,0,2,0,2,0,2],
-          [0,0,0,0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0,0,0,0]], 
-     3:  [[1,0,1,0,1,0,1,0,1,0,1],
-          [0,0,0,0,0,0,0,0,0,0,0],
-          [1,0,1,0,1,0,1,0,1,0,1],
-          [0,0,0,0,0,0,0,0,0,0,0],
-          [2,0,2,0,2,0,2,0,2,0,2],
+          [4,0,4,0,4,0,4,0,4,0,4],
           [0,0,0,0,0,0,0,0,0,0,0],
           [2,0,2,0,2,0,2,0,2,0,2],
+          [0,0,0,0,0,0,0,0,0,0,0],
+          [3,0,3,0,3,0,3,0,3,0,3],
           [0,0,0,0,0,0,0,0,0,0,0],
           [1,0,1,0,1,0,1,0,1,0,1],
           [0,0,0,0,0,0,0,0,0,0,0],
@@ -48,7 +48,7 @@
   }
 
   function startGame() {
-    var screen = new GameScreen("Alien Invaders","press space to start","",
+    var screen = new GameScreen("SPACE INVADERS","PRESS SPACE TO START THE ADVENTURE...","",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });
@@ -57,7 +57,7 @@
   }
 
   function endGame() {
-       var screen = new GameScreen("Game Over","Score : " +playerScore,"(press space to restart)",
+       var screen = new GameScreen("GAME OVER.","Score : " +playerScore,"(Press space to restart)",
                                  function() { 
                                      playerScore = 0;
                                      Game.loadBoard(new GameBoard(1));
@@ -69,15 +69,16 @@
 
 
   function winGame() {
-    var screen = new GameScreen("You Win!","Score : " +playerScore,"(press space to restart)","",
+    var screen = new GameScreen("YOU WIN!","Score : " +playerScore,"(press space to restart)","",
                                  function() {
+                                     playerScore = 0;
                                      Game.loadBoard(new GameBoard(1));
                                  });
     Game.loadBoard(screen);
   }
 
   $(function() {
-    GameAudio.load({ 'fire' : 'media/laser.ogg', 'die' : 'media/explosion.ogg' }, 
+    GameAudio.load({ 'fire' : 'media/laser.ogg', 'die' : 'media/gun.ogg' }, 
                    function() { 
                        Game.initialize("#gameboard", levelData, spriteData,
                                       { "start": startGame,
